@@ -23,8 +23,17 @@ class PlayerBasic : public Player
          else
          {
             // We have a good card!
-            // Bet/raise half of what we have left.
-            return callCost + (bank-callCost)/2;
+
+            // Do we have enough money in the bank?
+            if (callCost <= bank)
+            {
+               // Bet/raise half of what we have left.
+               return callCost + (bank-callCost)/2;
+            }
+            else
+            {
+               return callCost;
+            }
          }
       }
 

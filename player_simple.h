@@ -26,8 +26,16 @@ class PlayerSimple : public Player
                case 0 : // CALL
                   return callCost;
                case 1 : // RAISE
-                  // Raise with 10 % of what is left.
-                  return callCost + (bank-callCost)/10;
+                  // Do we have enough money in the bank?
+                  if (callCost <= bank)
+                  {
+                     // Raise with 10 % of what is left.
+                     return callCost + (bank-callCost)/10;
+                  }
+                  else
+                  {
+                     return callCost;
+                  }
                default : // FOLD
                   return -1;
             }
