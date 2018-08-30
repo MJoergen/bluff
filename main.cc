@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "player.h"
-#include "player_simple.h"
+#include "player_dumb.h"
 #include "player_basic.h"
 #include "tournament.h"
 #include "trace.h"
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
    std::vector<Player *> players;
 
-   players.push_back(new PlayerSimple());
+   players.push_back(new PlayerDumb());
    players.push_back(new PlayerBasic());
 
    Tournament t(players, numGames);

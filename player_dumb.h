@@ -1,11 +1,11 @@
-#ifndef _PLAYER_SIMPLE_H_
-#define _PLAYER_SIMPLE_H_
+#ifndef _PLAYER_DUMB_H_
+#define _PLAYER_DUMB_H_
 
 #include "player.h"
 
 // This is a very simple and dumb player. It pays absolutely no attention to the value
 // of his own card!!!
-class PlayerSimple : public Player
+class PlayerDumb : public Player
 {
    public:
       unsigned bet(int myCard, unsigned callCost, unsigned bank, unsigned pot)
@@ -42,8 +42,8 @@ class PlayerSimple : public Player
          }
       }
 
-      std::string name() const {return "SIMPLE";}
-}; // end of class PlayerSimple
+      std::string name() const {return "DUMB";}
+}; // end of class PlayerDumb
 
-#endif // _PLAYER_SIMPLE_H_
+#endif // _PLAYER_DUMB_H_
 
