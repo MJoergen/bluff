@@ -14,7 +14,7 @@ class PlayerDumb : public Player
          {
             // It is the beginning of the game.
             // Always bet 10 % of my current bank.
-            return bank/10;
+            return (bank+9)/10;   // Make sure value is not zero.
          }
          else
          {

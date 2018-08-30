@@ -10,13 +10,13 @@
 std::ostream *gpTrace = 0;
 #endif
 
-const int numGames = 1;
+int numGames = 1000;
 
 int main(int argc, char **argv)
 {
    int c;
 
-   while ((c = getopt(argc, argv, "t:h")) != -1)
+   while ((c = getopt(argc, argv, "t:n:h")) != -1)
    {
       switch (c)
       {
@@ -25,10 +25,11 @@ int main(int argc, char **argv)
 #else
          case 't' : std::cout << "Trace not supported" << std::endl; return 1;
 #endif
-         case 'h' :
+         case 'h' : numGames = strtol(optarg, (char **) NULL, 10); break;
          default : {
                       std::cout <<  "Options:" << std::endl;
                       std::cout << "-t <file> : Trace search to file" << std::endl;
+                      std::cout << "-n <num>  : Number of games to play (default 1000)" << std::endl;
                       std::cout << "-h        : Show this message" << std::endl;
                       exit(1);
                    }
