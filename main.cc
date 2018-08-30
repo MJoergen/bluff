@@ -25,7 +25,8 @@ int main(int argc, char **argv)
 #else
          case 't' : std::cout << "Trace not supported" << std::endl; return 1;
 #endif
-         case 'h' : numGames = strtol(optarg, (char **) NULL, 10); break;
+         case 'n' : numGames = strtol(optarg, (char **) NULL, 10); break;
+         case 'h' :
          default : {
                       std::cout <<  "Options:" << std::endl;
                       std::cout << "-t <file> : Trace search to file" << std::endl;
