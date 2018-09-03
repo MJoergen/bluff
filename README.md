@@ -15,10 +15,13 @@ Both players must pay 1 credit to start the round.
 The players take turns betting. This is done by paying a number of credits to
 the pot. Possible betting options are:
 * FOLD. This loses the current round, and the opponent gets the pot.
-* CALL. Ends the round. Whichever player has the highest card wins and receives
+* CALL/ALL-IN. Ends the round. Whichever player has the highest card wins and
+  receives
   the pot. If the two cards are equal, the pot is left unchanged.
-* RAISE. Forces the opponent to pay more credits to stay in the round.
-* CHECK. Forfeits the move. Only valid on the first bet of a round.
+* BET/RAISE. Forces the opponent to pay more credits to stay in the round.
+* CHECK. Forfeits the move. Only valid on the first bet of a round, and if the
+  other player has not made a bet.
+
 
 Note: The total amount of credits remains constant throughout a match.
 Therefore, when one player has lost the match, the other player owns all the

@@ -12,9 +12,13 @@ class Match
       {}
 
       int play(int numGames);
-      int playOneGame();
 
    private:
+      int playOneGame();
+
+      void playOneRound(const std::vector<Player*>& players, 
+            std::vector<int>& banks, int& pot, int startingPlayer);
+
       Player *m_p1;
       Player *m_p2;
 
