@@ -12,6 +12,7 @@ public:
       m_players(players),
       m_totals(players.size()),
       m_table(players.size(), std::vector<float>(players.size())),
+      m_biggest_competitor(),
       m_numGames(numGames)
    {
    }

@@ -8,7 +8,7 @@
 class PlayerDumb : public Player
 {
    public:
-      unsigned bet(int myCard, unsigned callCost, unsigned bank, unsigned pot)
+      unsigned bet(int myCard __attribute__((unused)), unsigned callCost, unsigned bank, unsigned pot __attribute__((unused)))
       {
          if (callCost == 0)
          {

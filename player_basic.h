@@ -8,7 +8,7 @@
 class PlayerBasic : public Player
 {
    public:
-      unsigned bet(int myCard, unsigned callCost, unsigned bank, unsigned pot)
+      unsigned bet(int myCard, unsigned callCost, unsigned bank, unsigned pot __attribute__((unused)))
       {
          // Estimate how likely we are to win,
          // based on the value of our card.

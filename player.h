@@ -35,6 +35,8 @@ class Player
       virtual unsigned bet(int myCard, unsigned callCost, unsigned credits, unsigned pot) = 0;
 
       virtual std::string name() const = 0;
+
+      virtual ~Player() {}
 }; // end of class Player
 
 #endif // _PLAYER_H_
