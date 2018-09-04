@@ -26,7 +26,12 @@ int Match::play(int numGames)
 // out of credit.
 int Match::playOneGame()
 {
+   TRACE(std::endl);
+   TRACE(std::endl);
+   TRACE("============================" << std::endl);
    TRACE("Starting new game" << std::endl);
+   TRACE("============================" << std::endl);
+   TRACE(std::endl);
 
    std::vector<Player*> players({m_p1, m_p2});
 
@@ -42,19 +47,25 @@ int Match::playOneGame()
    // Keep playing until one player runs out of credit.
    while (banks[0] > 0 && banks[1] > 0)
    {
-      playOneRound(players, banks, pot, startingPlayer);
+      TRACE(std::endl << std::endl);
+      TRACE("Current credis: " << players[0]->name() << "=" << banks[0] <<
+            ", " << players[1]->name() << "=" << banks[1] <<
+            ", pot=" << pot << std::endl);
 
-      TRACE("Current status: banks[0]=" << banks[0] << ", banks[1]=" <<
-            banks[1] << ", pot=" << pot << std::endl << std::endl);
+      playOneRound(players, banks, pot, startingPlayer);
 
       startingPlayer = 1 - startingPlayer;
    } // end of while (banks[0] > 0 && banks[1] > 0)
 
    // The game is finished.
    if (banks[0] <= 0)   // Player 0 has lost
+   {
       return -1;
+   }
    if (banks[1] <= 0)   // Player 1 has lost
+   {
       return 1;
+   }
    
    return 0; // Should never happen
 } // end of playOneGame
@@ -69,9 +80,13 @@ void Match::playOneRound(const std::vector<Player*>& players,
    // The players dealt card
    std::vector<unsigned> cards({rand()%13U, rand()%13U});
 
-   TRACE("==============================" << std::endl);
-   TRACE("Player 0's card: " << cards[0] << ",  Player 1's card: " <<
+   TRACE("+++++++++++++++++++++++++++++++++++++++" << std::endl);
+   TRACE("" << players[0]->name() << "'s card: " << cards[0] <<
+         ",  " << players[1]->name() << "'s card: " <<
          cards[1] << std::endl);
+
+   // True if the current player has not made any action yet.
+   std::vector<bool> firstAction({true, true});
 
    // The current amount needed to call
    int callCost = 0;
@@ -88,93 +103,124 @@ void Match::playOneRound(const std::vector<Player*>& players,
    // The following while loop plays one round
    while (true)
    {
-      TRACE(std::endl << "Player " << curPlayer << "'s turn: callCost=" <<
-            callCost << ", banks[0]=" << banks[0] << ", banks[1]=" << banks[1] <<
+      TRACE(std::endl << players[curPlayer]->name() << "'s turn: callCost=" <<
+            callCost << ", credits=" << banks[curPlayer] <<
             ", pot=" << pot << std::endl);
 
+      // Get action from player
       int bet = players[curPlayer]->bet(cards[curPlayer], callCost,
             banks[curPlayer], pot);
       if (bet < 0)
       {
-         TRACE("Player " << curPlayer << " folds" << std::endl << std::endl);
+         TRACE("" << players[curPlayer]->name() << " folds." << std::endl);
 
          // Opponent keeps the pot.
          banks[1-curPlayer] += pot;
          pot = 0;
          return; // This round has now ended.
       }
-
-      if (bet == 0 && callCost == 0)
+      else if (bet == 0)
       {
-         TRACE("Player " << curPlayer << " is cheating. Trying to call in the first move." << std::endl);
-         assert(false);
-      }
+         TRACE("" << players[curPlayer]->name() << " checks." << std::endl);
 
-      if (bet >= 0 && bet < callCost)
-      {
-         TRACE("Player " << curPlayer << " is cheating. Trying to call without paying enoug money." << std::endl);
-         assert(false);
-      }
-
-      if (bet > 0 && callCost == 0)
-      {
-         TRACE("Player " << curPlayer << " bets " << bet << std::endl);
-      }
-      else if (bet > callCost && callCost > 0)
-      {
-         TRACE("Player " << curPlayer << " raises " << bet - callCost << std::endl);
-      }
-      else if (bet == callCost)
-      {
-         TRACE("Player " << curPlayer << " calls" << std::endl);
-      }
-
-      if (bet > banks[curPlayer])
-      {
-         TRACE("Player " << curPlayer << " goes all in. Pot reduced by " << bet-banks[curPlayer] << std::endl);
-
-         // Player is going ALL-IN
-         // Reduce the pot accordingly
-         pot -= (bet-banks[curPlayer]);
-         banks[1-curPlayer] += (bet-banks[curPlayer]);
-         callCost = banks[curPlayer];
-         bet = banks[curPlayer];
-      }
-
-      // Player pays to the pot.
-      banks[curPlayer] -= bet;
-      pot += bet;
-
-      // Calculate the new value to pay for a call.
-      callCost = bet - callCost;
-
-      if (callCost == 0)
-      {
-         // Player has CALL'ed.
-         if (cards[0] > cards[1])
+         // This is only allowed on the first round
+         if (!firstAction[curPlayer])
          {
-            TRACE("Player 0 WON" << std::endl);
-
-            // Player 0 earns the pot.
-            banks[0] += pot;
-            pot = 0;
+            TRACE("" << players[curPlayer]->name() << " is cheating: " <<
+                  "Checking is only allowed on the first move." << std::endl);
+            assert(false);
          }
-         else if (cards[0] < cards[1])
+
+         if (callCost > 0)
          {
-            TRACE("Player 1 WON" << std::endl);
-
-            // Player 1 earns the pot.
-            banks[1] += pot;
-            pot = 0;
+            TRACE("" << players[curPlayer]->name() << " is cheating: " <<
+                  "Checking is not allowed when there is a bet made already" <<
+                  std::endl);
+            assert(false);
          }
-         TRACE(std::endl);
-         // If the cards are the same, just leave the pot.
-         break; // Play a new round
+      }
+      else // bet > 0
+      {
+         if (callCost == 0)
+         {
+            TRACE("" << players[curPlayer]->name() << " bets " << bet <<
+                  "."  << std::endl);
+         }
+         else if (bet == callCost)
+         {
+            TRACE("" << players[curPlayer]->name() << " calls." << std::endl);
+         }
+         else if (bet > callCost)
+         {
+            TRACE("" << players[curPlayer]->name() << " raises " << bet-callCost <<
+                  "."  << std::endl);
+         }
+         else
+         {
+            TRACE("" << players[curPlayer]->name() << " is cheating: " <<
+                  "Trying to call without paying enough money." << std::endl);
+            assert(false);
+         }
+
+         if (bet > banks[curPlayer])
+         {
+            TRACE("" << players[curPlayer]->name() << " goes all in. " <<
+                  "Pot reduced by " << bet-banks[curPlayer] << std::endl);
+
+            // Player is going ALL-IN
+            // Reduce the pot accordingly
+            pot                -= (bet-banks[curPlayer]);
+            banks[1-curPlayer] += (bet-banks[curPlayer]);
+
+            callCost = banks[curPlayer];
+            bet = banks[curPlayer];
+         }
+
+         // Player pays to the pot.
+         banks[curPlayer] -= bet;
+         pot += bet;
+
+         // Calculate the new value to pay for a call.
+         callCost = bet - callCost;
+
+         if (callCost == 0)
+         {
+            // Player has CALL'ed.
+            if (cards[0] > cards[1])
+            {
+               // Player 0 earns the pot.
+               TRACE("" << players[0]->name() << " wins the pot." << std::endl);
+
+               banks[0] += pot;
+               pot = 0;
+            }
+            else if (cards[0] < cards[1])
+            {
+               // Player 1 earns the pot.
+               TRACE("" << players[1]->name() << " wins the pot." << std::endl);
+
+               banks[1] += pot;
+               pot = 0;
+            }
+            else
+            {
+               TRACE("Cards match. Pot remains." << std::endl);
+            }
+
+            // If the cards are the same, just leave the pot.
+            return; // Play a new round
+         }
       }
 
+      firstAction[curPlayer] = false;
       curPlayer = 1-curPlayer;
 
-      // Go back and continue with this round
+      if (!firstAction[0] && !firstAction[1] && callCost == 0)
+      {
+         TRACE("Both players checked. Dealing new cards." << std::endl);
+         return; // Play a new round
+      }
+
    } // end of while (true)
 
 } // end of playOneRound
