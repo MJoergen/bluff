@@ -3,6 +3,7 @@
 #include "player.h"
 #include "player_dumb.h"
 #include "player_basic.h"
+#include "player_mike.h"
 #include "tournament.h"
 #include "trace.h"
 
@@ -41,8 +42,11 @@ int main(int argc, char **argv)
 
    std::vector<Player *> players;
 
-   players.push_back(new PlayerDumb());
+   players.push_back(new PlayerMike<8>());
+   players.push_back(new PlayerMike<9>());
+   players.push_back(new PlayerMike<10>());
    players.push_back(new PlayerBasic());
+   players.push_back(new PlayerDumb());
 
    Tournament t(players, numGames);
    
