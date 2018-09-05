@@ -3,6 +3,9 @@
 This program holds a round-robin tournament of different bots playing against
 each other one-on-one. The game played is a dumbed-down version of poker.
 
+The object of this project is to pitch different bots against each other, and
+to experiment with different bot strategies.
+
 # Rules of the game
 A 'match' is played by two players only.  Each player starts a match with 100
 credits. A match consists of a number of 'rounds'. The players keep playing
