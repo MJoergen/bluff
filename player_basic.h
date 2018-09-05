@@ -4,7 +4,7 @@
 #include "player.h"
 
 // This is a very basic player. It is not very smart, and it is
-// only intended to beat the even dumber player SIMPLE.
+// only intended to beat the even dumber player DUMB.
 class PlayerBasic : public Player
 {
    public:

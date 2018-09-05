@@ -47,6 +47,8 @@ int main(int argc, char **argv)
    Tournament t(players, numGames);
    
    t.play();
+   t.show();
+   t.showTable();
 
 } // end of main
 
