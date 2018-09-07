@@ -31,3 +31,5 @@ credits.
 The above rules are inspired by the betting rules for poker described
 [here](https://en.wikipedia.org/wiki/Betting_in_poker).
 
+See [here](http://www.firsttimepokerplayer.com/how-to-play/strategy/betting-guide/) for a description of different betting strategies.
+
