@@ -1,7 +1,8 @@
 # Bluff
 
 This program holds a round-robin tournament of different bots playing against
-each other one-on-one. The game played is a dumbed-down version of poker.
+each other one-on-one. The game played is a dumbed-down version of poker, where
+each player is only dealt one card.
 
 The object of this project is to pitch different bots against each other, and
 to experiment with different bot strategies.
